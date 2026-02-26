@@ -1,7 +1,9 @@
 import SwiftUI
 
 enum Demo: String, CaseIterable, Identifiable {
+    case fallingApple = "Falling Apple"
     case prism = "Prism & Light"
+    case inverseSquare = "Inverse Square Law"
     case cradle = "Newton's Cradle"
     case orbits = "Orbital Mechanics"
     case calculus = "Calculus"
@@ -11,7 +13,9 @@ enum Demo: String, CaseIterable, Identifiable {
 
     var icon: String {
         switch self {
+        case .fallingApple: return "arrow.down.app"
         case .prism: return "rainbow"
+        case .inverseSquare: return "dot.radiowaves.right"
         case .cradle: return "circle.grid.3x3"
         case .orbits: return "globe.americas"
         case .calculus: return "function"
@@ -21,8 +25,12 @@ enum Demo: String, CaseIterable, Identifiable {
 
     var subtitle: String {
         switch self {
+        case .fallingApple:
+            return "The Legend (c. 1666)"
         case .prism:
             return "Opticks (1704)"
+        case .inverseSquare:
+            return "F \u{221D} 1/r\u{00B2}"
         case .cradle:
             return "Conservation of Momentum"
         case .orbits:
@@ -36,8 +44,12 @@ enum Demo: String, CaseIterable, Identifiable {
 
     var description: String {
         switch self {
+        case .fallingApple:
+            return "According to legend, Newton was inspired to formulate his theory of gravitation when he observed an apple falling from a tree around 1666. This moment led to his realization that the same force pulling the apple toward Earth also keeps the Moon in orbit. The gravitational field visualization shows how every point in space experiences a force directed toward the Earth's center."
         case .prism:
             return "In 1666, Newton used a glass prism to demonstrate that white light is composed of a spectrum of colors. By refracting sunlight, he showed that each color bends at a slightly different angle due to its wavelength, decomposing white light into the visible spectrum. This experiment fundamentally changed our understanding of the nature of light."
+        case .inverseSquare:
+            return "Newton demonstrated that gravitational force decreases with the square of the distance. At twice the distance, the force is four times weaker; at three times the distance, nine times weaker. This is because the same force spreads over an area that grows as r\u{00B2}. This same law governs light intensity, sound, and electromagnetic radiation."
         case .cradle:
             return "Newton's Cradle demonstrates the conservation of momentum and kinetic energy. When a ball on one end strikes the stationary balls, the force propagates through the line, launching the ball on the opposite end. This elegant device illustrates Newton's Third Law: for every action, there is an equal and opposite reaction."
         case .orbits:

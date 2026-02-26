@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedDemo: Demo? = .prism
+    @State private var selectedDemo: Demo? = .fallingApple
 
     var body: some View {
         NavigationSplitView {
@@ -48,8 +48,12 @@ struct DemoDetailView: View {
             // Demo view
             Group {
                 switch demo {
+                case .fallingApple:
+                    FallingAppleView()
                 case .prism:
                     PrismView()
+                case .inverseSquare:
+                    InverseSquareView()
                 case .cradle:
                     CradleView()
                 case .orbits:
