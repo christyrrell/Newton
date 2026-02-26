@@ -22,7 +22,7 @@ struct OrbitsView: View {
     @State private var isPaused: Bool = false
     @State private var lastUpdate: Date = .now
 
-    private let G: Double = 800
+    private let G: Double = 0.8
 
     var body: some View {
         VStack(spacing: 0) {
@@ -95,52 +95,58 @@ struct OrbitsView: View {
     }
 
     private func setupSolarSystem() {
+        // Circular orbit velocity: v = sqrt(G * M_sun / r) = sqrt(4000 / r)
         bodies = [
             OrbitalBody(x: 0, y: 0, vx: 0, vy: 0, mass: 5000, radius: 22,
                         color: .yellow, name: "Sun"),
-            OrbitalBody(x: 80, y: 0, vx: 0, vy: 7.2, mass: 8, radius: 4,
+            OrbitalBody(x: 80, y: 0, vx: 0, vy: 7.07, mass: 8, radius: 4,
                         color: Color(white: 0.7), name: "Mercury"),
-            OrbitalBody(x: 135, y: 0, vx: 0, vy: 5.6, mass: 18, radius: 6,
+            OrbitalBody(x: 135, y: 0, vx: 0, vy: 5.44, mass: 18, radius: 6,
                         color: Color(red: 0.9, green: 0.7, blue: 0.4), name: "Venus"),
-            OrbitalBody(x: 195, y: 0, vx: 0, vy: 4.7, mass: 22, radius: 7,
+            OrbitalBody(x: 195, y: 0, vx: 0, vy: 4.53, mass: 22, radius: 7,
                         color: Color(red: 0.3, green: 0.6, blue: 0.9), name: "Earth"),
-            OrbitalBody(x: 260, y: 0, vx: 0, vy: 4.0, mass: 10, radius: 5,
+            OrbitalBody(x: 260, y: 0, vx: 0, vy: 3.92, mass: 10, radius: 5,
                         color: Color(red: 0.9, green: 0.4, blue: 0.3), name: "Mars"),
-            OrbitalBody(x: 370, y: 0, vx: 0, vy: 3.3, mass: 200, radius: 14,
+            OrbitalBody(x: 370, y: 0, vx: 0, vy: 3.29, mass: 200, radius: 14,
                         color: Color(red: 0.8, green: 0.7, blue: 0.5), name: "Jupiter"),
         ]
     }
 
     private func setupBinaryStars() {
+        // Binary orbit: v = sqrt(G * M_other / (2 * separation))
+        // separation = 160, so v = sqrt(0.8 * 2000 / 320) = sqrt(5) = 2.24
+        // Planet orbits both: v = sqrt(G * M_total / r) = sqrt(0.8 * 4000 / 250) = 3.58
         bodies = [
-            OrbitalBody(x: -80, y: 0, vx: 0, vy: -2.5, mass: 2000, radius: 16,
+            OrbitalBody(x: -80, y: 0, vx: 0, vy: -2.24, mass: 2000, radius: 16,
                         color: .orange, name: "Star A"),
-            OrbitalBody(x: 80, y: 0, vx: 0, vy: 2.5, mass: 2000, radius: 16,
+            OrbitalBody(x: 80, y: 0, vx: 0, vy: 2.24, mass: 2000, radius: 16,
                         color: Color(red: 0.6, green: 0.8, blue: 1.0), name: "Star B"),
-            OrbitalBody(x: 250, y: 0, vx: 0, vy: 4.2, mass: 5, radius: 4,
+            OrbitalBody(x: 250, y: 0, vx: 0, vy: 3.58, mass: 5, radius: 4,
                         color: .green, name: "Planet"),
         ]
     }
 
     private func setupLagrange() {
-        // Sun-Earth-like system with objects at Lagrange-ish points
+        // v = sqrt(G * M_sun / r) = sqrt(0.8 * 5000 / 200) = sqrt(20) = 4.47
+        // L4/L5 Trojan asteroids orbit at 60 degrees ahead/behind
+        let earthV = 4.47
         bodies = [
             OrbitalBody(x: 0, y: 0, vx: 0, vy: 0, mass: 5000, radius: 20,
                         color: .yellow, name: "Sun"),
-            OrbitalBody(x: 200, y: 0, vx: 0, vy: 4.6, mass: 25, radius: 7,
+            OrbitalBody(x: 200, y: 0, vx: 0, vy: earthV, mass: 25, radius: 7,
                         color: Color(red: 0.3, green: 0.6, blue: 0.9), name: "Earth"),
             // Trojan asteroid (leading L4)
             OrbitalBody(x: 200 * Foundation.cos(.pi / 3),
                         y: -200 * Foundation.sin(.pi / 3),
-                        vx: 4.6 * Foundation.sin(.pi / 3),
-                        vy: 4.6 * Foundation.cos(.pi / 3),
+                        vx: earthV * Foundation.sin(.pi / 3),
+                        vy: earthV * Foundation.cos(.pi / 3),
                         mass: 1, radius: 3,
                         color: Color(white: 0.6), name: "L4"),
             // Trailing L5
             OrbitalBody(x: 200 * Foundation.cos(.pi / 3),
                         y: 200 * Foundation.sin(.pi / 3),
-                        vx: -4.6 * Foundation.sin(.pi / 3),
-                        vy: 4.6 * Foundation.cos(.pi / 3),
+                        vx: -earthV * Foundation.sin(.pi / 3),
+                        vy: earthV * Foundation.cos(.pi / 3),
                         mass: 1, radius: 3,
                         color: Color(white: 0.6), name: "L5"),
         ]
@@ -148,7 +154,7 @@ struct OrbitsView: View {
 
     private func updatePhysics(dt: Double) {
         let steps = max(1, Int(timeScale * 4))
-        let subDt = 0.016 / Double(steps)
+        let subDt = 0.016 * timeScale / Double(steps)
 
         for _ in 0..<steps {
             var forces = Array(repeating: (fx: 0.0, fy: 0.0), count: bodies.count)
