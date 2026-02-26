@@ -82,6 +82,8 @@ struct DemoDetailView: View {
                     CalculusView()
                 case .projectile:
                     ProjectileView()
+                case .particles:
+                    ParticleGravityView()
                 case .cooling:
                     CoolingView()
                 }

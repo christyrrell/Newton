@@ -10,6 +10,7 @@ enum Demo: String, CaseIterable, Identifiable {
     case colorWheel = "Colour Circle"
     case calculus = "Calculus"
     case projectile = "Projectile Motion"
+    case particles = "Particle Gravity"
     case cooling = "Law of Cooling"
 
     var id: String { rawValue }
@@ -25,6 +26,7 @@ enum Demo: String, CaseIterable, Identifiable {
         case .colorWheel: return "circle.hexagongrid"
         case .calculus: return "function"
         case .projectile: return "arrow.up.right"
+        case .particles: return "sparkles"
         case .cooling: return "thermometer.medium"
         }
     }
@@ -49,6 +51,8 @@ enum Demo: String, CaseIterable, Identifiable {
             return "Method of Fluxions"
         case .projectile:
             return "Laws of Motion"
+        case .particles:
+            return "Forces & Acceleration"
         case .cooling:
             return "Exponential Decay"
         }
@@ -74,6 +78,8 @@ enum Demo: String, CaseIterable, Identifiable {
             return "Newton developed the method of fluxions (calculus) to describe rates of change and areas under curves. The derivative gives the instantaneous rate of change of a function, while the integral accumulates area. The Fundamental Theorem of Calculus unifies these two operations as inverses of each other."
         case .projectile:
             return "Newton's Second Law, F = ma, governs the motion of projectiles under gravity. An object launched at an angle follows a parabolic trajectory determined by its initial velocity and the constant downward pull of gravity. Without air resistance, the horizontal and vertical motions are independent."
+        case .particles:
+            return "A particle fountain demonstrating Newton's Second Law in action. Hundreds of particles launch upward and fall back under gravity, colored by their velocity, height, or as a rainbow. Add wind force to see how horizontal forces combine with gravity. Each particle independently obeys F = ma."
         case .cooling:
             return "Newton's Law of Cooling states that the rate of heat loss of a body is proportional to the difference between its temperature and its surroundings: dT/dt = -k(T - T_env). This produces exponential decay toward the ambient temperature, with the cooling rate k depending on the object's properties. Newton published this in 1701."
         }
