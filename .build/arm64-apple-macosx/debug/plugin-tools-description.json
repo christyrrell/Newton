@@ -1,0 +1,453 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.Newton-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/sources",
+      "importPath" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/ContentView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Helpers/WavelengthColor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Models/Demo.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/NewtonApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/CalculusView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/CradleView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/FallingAppleView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/InverseSquareView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/OrbitsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/PrismView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/ProjectileView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "Newton",
+      "moduleOutputPath" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Modules/Newton.swiftmodule",
+      "objects" : [
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ContentView.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/WavelengthColor.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/Demo.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/NewtonApp.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CalculusView.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CradleView.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/FallingAppleView.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/InverseSquareView.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/OrbitsView.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/PrismView.swift.o",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ProjectileView.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx15.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j10",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "Newton_main",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "newton"
+      ],
+      "outputFileMapPath" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ContentView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/WavelengthColor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/Demo.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/NewtonApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CalculusView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CradleView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/FallingAppleView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/InverseSquareView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/OrbitsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/PrismView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ProjectileView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Modules/Newton.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/chris/Projects/Newton/Sources/ContentView.swift",
+        "/Users/chris/Projects/Newton/Sources/Helpers/WavelengthColor.swift",
+        "/Users/chris/Projects/Newton/Sources/Models/Demo.swift",
+        "/Users/chris/Projects/Newton/Sources/NewtonApp.swift",
+        "/Users/chris/Projects/Newton/Sources/Views/CalculusView.swift",
+        "/Users/chris/Projects/Newton/Sources/Views/CradleView.swift",
+        "/Users/chris/Projects/Newton/Sources/Views/FallingAppleView.swift",
+        "/Users/chris/Projects/Newton/Sources/Views/InverseSquareView.swift",
+        "/Users/chris/Projects/Newton/Sources/Views/OrbitsView.swift",
+        "/Users/chris/Projects/Newton/Sources/Views/PrismView.swift",
+        "/Users/chris/Projects/Newton/Sources/Views/ProjectileView.swift"
+      ],
+      "tempsPath" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "Newton" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "Newton",
+      "-package-name",
+      "newton",
+      "-c",
+      "/Users/chris/Projects/Newton/Sources/ContentView.swift",
+      "/Users/chris/Projects/Newton/Sources/Helpers/WavelengthColor.swift",
+      "/Users/chris/Projects/Newton/Sources/Models/Demo.swift",
+      "/Users/chris/Projects/Newton/Sources/NewtonApp.swift",
+      "/Users/chris/Projects/Newton/Sources/Views/CalculusView.swift",
+      "/Users/chris/Projects/Newton/Sources/Views/CradleView.swift",
+      "/Users/chris/Projects/Newton/Sources/Views/FallingAppleView.swift",
+      "/Users/chris/Projects/Newton/Sources/Views/InverseSquareView.swift",
+      "/Users/chris/Projects/Newton/Sources/Views/OrbitsView.swift",
+      "/Users/chris/Projects/Newton/Sources/Views/PrismView.swift",
+      "/Users/chris/Projects/Newton/Sources/Views/ProjectileView.swift",
+      "-I",
+      "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx15.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j10",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "Newton_main",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "newton",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "Newton" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton-entitlement.plist" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<entitlement-plist>"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<com.apple.security.get-task-allow>"
+        }
+      ],
+      "outputFilePath" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton-entitlement.plist"
+    },
+    "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/ContentView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Helpers/WavelengthColor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Models/Demo.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/NewtonApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/CalculusView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/CradleView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/FallingAppleView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/InverseSquareView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/OrbitsView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/PrismView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/Sources/Views/ProjectileView.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/sources"
+    },
+    "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CalculusView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ContentView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CradleView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/Demo.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/FallingAppleView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/InverseSquareView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/NewtonApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/OrbitsView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/PrismView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ProjectileView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/WavelengthColor.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.product/Objects.LinkFileList"
+    },
+    "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

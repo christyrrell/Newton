@@ -2,78 +2,65 @@ import SwiftUI
 import Foundation
 
 struct CradleView: View {
-    // Ball physics
     private let ballCount = 5
-    private let ballRadius: CGFloat = 20
-    private let stringLength: CGFloat = 200
+    private let ballRadius: CGFloat = 22
+    private let stringLength: CGFloat = 220
     private let gravity: Double = 9.81
-    private let damping: Double = 0.999
-    private let collisionTransfer: Double = 0.98
+    private let damping: Double = 0.9995
+    private let collisionTransfer: Double = 0.985
 
     @State private var angles: [Double] = [0, 0, 0, 0, 0]
     @State private var velocities: [Double] = [0, 0, 0, 0, 0]
-    @State private var isDragging: Int? = nil
-    @State private var dragAngle: Double = 0
-    @State private var isRunning = true
-    @State private var selectedPreset = 0
-
-    private let presets = [
-        ("Single Ball", { () -> ([Double], [Double]) in ([-0.5, 0, 0, 0, 0], [0, 0, 0, 0, 0]) }),
-        ("Two Balls", { () -> ([Double], [Double]) in ([-0.5, -0.5, 0, 0, 0], [0, 0, 0, 0, 0]) }),
-        ("Three Balls", { () -> ([Double], [Double]) in ([-0.4, -0.4, -0.4, 0, 0], [0, 0, 0, 0, 0]) }),
-        ("Opposing", { () -> ([Double], [Double]) in ([-0.5, 0, 0, 0, 0.5], [0, 0, 0, 0, 0]) }),
-    ]
+    @State private var draggingBall: Int? = nil
+    @State private var lastUpdate: Date = .now
 
     var body: some View {
         VStack(spacing: 0) {
             TimelineView(.animation(minimumInterval: 1.0 / 120.0)) { timeline in
                 Canvas { context, size in
-                    updatePhysics()
+                    let now = timeline.date
+                    let dt = min(now.timeIntervalSince(lastUpdate), 1.0 / 30.0)
+                    lastUpdate = now
+
+                    if draggingBall == nil {
+                        stepPhysics(dt: dt)
+                    }
                     drawCradle(context: context, size: size)
                 }
                 .background(
                     LinearGradient(
-                        colors: [Color(white: 0.08), Color(white: 0.04)],
+                        colors: [Color(white: 0.06), Color(white: 0.03)],
                         startPoint: .top, endPoint: .bottom
                     )
                 )
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { value in
-                            handleDrag(value: value)
-                        }
-                        .onEnded { _ in
-                            isDragging = nil
-                        }
-                )
+                .gesture(cradleDragGesture)
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal, .top])
 
             // Controls
-            HStack(spacing: 20) {
-                ForEach(Array(presets.enumerated()), id: \.offset) { index, preset in
-                    Button(preset.0) {
-                        let (a, v) = preset.1()
-                        withAnimation(.easeOut(duration: 0.3)) {
-                            angles = a
-                            velocities = v
+            HStack(spacing: 16) {
+                ForEach(presets, id: \.name) { preset in
+                    Button(preset.name) {
+                        withAnimation(.easeOut(duration: 0.2)) {
+                            angles = preset.angles
+                            velocities = preset.velocities
                         }
-                        selectedPreset = index
                     }
                     .buttonStyle(.bordered)
-                    .tint(selectedPreset == index ? .blue : nil)
                 }
 
                 Spacer()
 
                 Button("Stop") {
-                    velocities = [0, 0, 0, 0, 0]
-                    angles = [0, 0, 0, 0, 0]
+                    withAnimation(.easeOut(duration: 0.3)) {
+                        velocities = Array(repeating: 0.0, count: ballCount)
+                        angles = Array(repeating: 0.0, count: ballCount)
+                    }
                 }
                 .buttonStyle(.bordered)
 
-                Text("Drag a ball to start")
+                Text("Drag any ball to start")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -81,47 +68,92 @@ struct CradleView: View {
         }
     }
 
-    private func handleDrag(value: DragGesture.Value) {
-        // This is simplified - in a full implementation we'd track which ball was grabbed
-        // For now, pull the leftmost ball
-        let dragOffset = value.translation.width
-        let angle = max(-1.2, min(0, -dragOffset / 200))
-        angles[0] = angle
-        velocities[0] = 0
+    private struct Preset {
+        let name: String
+        let angles: [Double]
+        let velocities: [Double]
     }
 
-    private func updatePhysics() {
-        guard isDragging == nil else { return }
+    private let presets: [Preset] = [
+        Preset(name: "1 Ball", angles: [-0.5, 0, 0, 0, 0], velocities: [0, 0, 0, 0, 0]),
+        Preset(name: "2 Balls", angles: [-0.45, -0.45, 0, 0, 0], velocities: [0, 0, 0, 0, 0]),
+        Preset(name: "3 Balls", angles: [-0.4, -0.4, -0.4, 0, 0], velocities: [0, 0, 0, 0, 0]),
+        Preset(name: "Opposing", angles: [-0.5, 0, 0, 0, 0.5], velocities: [0, 0, 0, 0, 0]),
+    ]
 
-        let dt = 1.0 / 120.0
-        let g = gravity
-        let L = Double(stringLength)
+    // Geometry helpers
+    private func ballCenter(index: Int, size: CGSize) -> CGPoint {
+        let centerX = size.width / 2
+        let topY = size.height * 0.15
+        let spacing = ballRadius * 2 + 2
+        let anchorX = centerX + CGFloat(index - ballCount / 2) * spacing
+        let angle = CGFloat(angles[index])
+        let bx = anchorX + stringLength * Foundation.sin(angle)
+        let by = topY + stringLength * Foundation.cos(angle)
+        return CGPoint(x: bx, y: by)
+    }
 
-        // Update each pendulum
-        for i in 0..<ballCount {
-            // Gravity: angular acceleration = -g/L * sin(theta)
-            let acceleration = -g / L * sin(angles[i])
-            velocities[i] += acceleration * dt
-            velocities[i] *= damping
-            angles[i] += velocities[i] * dt
-        }
+    private var cradleDragGesture: some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                // On first touch, find which ball is closest
+                if draggingBall == nil {
+                    let midX = value.startLocation.x
+                    if midX < 200 {
+                        draggingBall = 0
+                    } else {
+                        draggingBall = ballCount - 1
+                    }
+                }
 
-        // Collision detection between adjacent balls
-        for i in 0..<(ballCount - 1) {
-            let ballSpacing = Double(ballRadius * 2 + 2)
-            let x1 = Double(stringLength) * sin(angles[i])
-            let x2 = Double(stringLength) * sin(angles[i + 1]) + ballSpacing
+                guard let ball = draggingBall else { return }
 
-            if x1 > x2 - ballSpacing {
-                // Elastic collision - swap velocities (Newton's Cradle behavior)
-                let v1 = velocities[i]
-                let v2 = velocities[i + 1]
-                velocities[i] = v2 * collisionTransfer
-                velocities[i + 1] = v1 * collisionTransfer
-                // Separate balls
-                let overlap = x1 - (x2 - ballSpacing)
-                angles[i] -= overlap / (2 * L)
-                angles[i + 1] += overlap / (2 * L)
+                // Convert drag to angle
+                let dragX = value.translation.width
+                let angle = Double(dragX) / Double(stringLength)
+                let clampedAngle = max(-1.3, min(1.3, angle))
+
+                angles[ball] = clampedAngle
+                velocities[ball] = 0
+            }
+            .onEnded { _ in
+                draggingBall = nil
+            }
+    }
+
+    private func stepPhysics(dt: Double) {
+        let substeps = 4
+        let subDt = dt / Double(substeps)
+
+        for _ in 0..<substeps {
+            let g = gravity
+            let L = Double(stringLength)
+
+            // Update each pendulum
+            for i in 0..<ballCount {
+                let acceleration = -g / L * Foundation.sin(angles[i]) * 200
+                velocities[i] += acceleration * subDt
+                velocities[i] *= damping
+                angles[i] += velocities[i] * subDt
+            }
+
+            // Collision detection
+            let ballSpacingAngle = Double(ballRadius * 2 + 2) / Double(stringLength)
+
+            for i in 0..<(ballCount - 1) {
+                let gap = angles[i + 1] - angles[i]
+                if gap < ballSpacingAngle * 0.02 {
+                    // Elastic collision
+                    let v1 = velocities[i]
+                    let v2 = velocities[i + 1]
+                    velocities[i] = v2 * collisionTransfer
+                    velocities[i + 1] = v1 * collisionTransfer
+
+                    // Separate
+                    let overlap = ballSpacingAngle * 0.02 - gap
+                    angles[i] -= overlap * 0.5
+                    angles[i + 1] += overlap * 0.5
+                }
             }
         }
     }
@@ -133,94 +165,125 @@ struct CradleView: View {
         let topY = h * 0.15
         let spacing = ballRadius * 2 + 2
 
-        // Draw frame
-        let frameWidth = CGFloat(ballCount) * spacing + 60
+        // Frame
+        let frameWidth = CGFloat(ballCount) * spacing + 80
         let frameLeft = centerX - frameWidth / 2
         let frameRight = centerX + frameWidth / 2
+        let frameBottom = topY + stringLength + ballRadius + 40
 
-        var framePath = Path()
-        framePath.move(to: CGPoint(x: frameLeft, y: topY - 10))
-        framePath.addLine(to: CGPoint(x: frameRight, y: topY - 10))
-        context.stroke(framePath, with: .color(.gray.opacity(0.8)),
-                       style: StrokeStyle(lineWidth: 4, lineCap: .round))
+        // Frame top bar
+        var topBar = Path()
+        topBar.move(to: CGPoint(x: frameLeft + 15, y: topY - 15))
+        topBar.addLine(to: CGPoint(x: frameRight - 15, y: topY - 15))
+        context.stroke(topBar, with: .color(Color(white: 0.5)),
+                       style: StrokeStyle(lineWidth: 5, lineCap: .round))
 
-        // Frame supports
-        for x in [frameLeft, frameRight] {
-            var support = Path()
-            support.move(to: CGPoint(x: x, y: topY - 10))
-            support.addLine(to: CGPoint(x: x + (x < centerX ? -15 : 15), y: topY + stringLength + 60))
-            context.stroke(support, with: .color(.gray.opacity(0.5)), lineWidth: 2)
+        // Frame legs
+        for (lx, dir) in [(frameLeft, CGFloat(-1)), (frameRight, CGFloat(1))] {
+            var leg = Path()
+            leg.move(to: CGPoint(x: lx + dir * -15, y: topY - 15))
+            leg.addLine(to: CGPoint(x: lx + dir * 8, y: frameBottom))
+            context.stroke(leg, with: .color(Color(white: 0.4)), lineWidth: 3)
         }
 
-        // Draw each ball
+        // Base bar
+        var baseBar = Path()
+        baseBar.move(to: CGPoint(x: frameLeft - 8, y: frameBottom))
+        baseBar.addLine(to: CGPoint(x: frameRight + 8, y: frameBottom))
+        context.stroke(baseBar, with: .color(Color(white: 0.4)),
+                       style: StrokeStyle(lineWidth: 3, lineCap: .round))
+
+        // Draw each ball with two strings
         for i in 0..<ballCount {
             let anchorX = centerX + CGFloat(i - ballCount / 2) * spacing
-            let angle = angles[i]
+            let angle = CGFloat(angles[i])
 
-            let ballX = anchorX + stringLength * CGFloat(sin(angle))
-            let ballY = topY + stringLength * CGFloat(cos(angle))
+            let ballX = anchorX + stringLength * Foundation.sin(angle)
+            let ballY = topY + stringLength * Foundation.cos(angle)
 
-            // String
-            var stringPath = Path()
-            stringPath.move(to: CGPoint(x: anchorX, y: topY))
-            stringPath.addLine(to: CGPoint(x: ballX, y: ballY))
-            context.stroke(stringPath, with: .color(.gray.opacity(0.6)), lineWidth: 1)
+            // Two strings (V-shape for stability visual)
+            let stringOffset: CGFloat = 8
+            for dx in [-stringOffset, stringOffset] {
+                var stringPath = Path()
+                stringPath.move(to: CGPoint(x: anchorX + dx, y: topY - 12))
+                stringPath.addLine(to: CGPoint(x: ballX, y: ballY))
+                context.stroke(stringPath, with: .color(Color(white: 0.45, opacity: 0.7)),
+                               lineWidth: 0.8)
+            }
 
             // Ball shadow
+            let shadowOffset: CGFloat = 3
             let shadowRect = CGRect(
-                x: ballX - ballRadius + 3,
-                y: ballY - ballRadius + 3,
-                width: ballRadius * 2,
-                height: ballRadius * 2
+                x: ballX - ballRadius + shadowOffset,
+                y: ballY - ballRadius + shadowOffset,
+                width: ballRadius * 2, height: ballRadius * 2
             )
-            context.fill(Path(ellipseIn: shadowRect), with: .color(.black.opacity(0.3)))
+            context.fill(Path(ellipseIn: shadowRect), with: .color(.black.opacity(0.4)))
 
-            // Ball with metallic gradient
+            // Ball - chrome/metallic look
             let ballRect = CGRect(
-                x: ballX - ballRadius,
-                y: ballY - ballRadius,
-                width: ballRadius * 2,
-                height: ballRadius * 2
+                x: ballX - ballRadius, y: ballY - ballRadius,
+                width: ballRadius * 2, height: ballRadius * 2
             )
 
-            let gradient = Gradient(colors: [
-                Color(white: 0.85),
-                Color(white: 0.55),
-                Color(white: 0.3)
+            let metalGradient = Gradient(stops: [
+                .init(color: Color(white: 0.90), location: 0.0),
+                .init(color: Color(white: 0.70), location: 0.3),
+                .init(color: Color(white: 0.45), location: 0.6),
+                .init(color: Color(white: 0.25), location: 0.85),
+                .init(color: Color(white: 0.35), location: 1.0),
             ])
 
             context.fill(
                 Path(ellipseIn: ballRect),
                 with: .radialGradient(
-                    gradient,
-                    center: CGPoint(x: ballX - 5, y: ballY - 5),
+                    metalGradient,
+                    center: CGPoint(x: ballX - ballRadius * 0.3, y: ballY - ballRadius * 0.3),
                     startRadius: 0,
-                    endRadius: ballRadius
+                    endRadius: ballRadius * 1.1
                 )
             )
 
-            // Highlight
+            // Specular highlight
             let highlightRect = CGRect(
-                x: ballX - ballRadius * 0.4,
-                y: ballY - ballRadius * 0.5,
+                x: ballX - ballRadius * 0.45,
+                y: ballY - ballRadius * 0.55,
                 width: ballRadius * 0.5,
-                height: ballRadius * 0.3
+                height: ballRadius * 0.35
             )
-            context.fill(
-                Path(ellipseIn: highlightRect),
-                with: .color(.white.opacity(0.4))
+            context.fill(Path(ellipseIn: highlightRect), with: .color(.white.opacity(0.5)))
+
+            // Rim light (bottom edge)
+            let rimRect = CGRect(
+                x: ballX - ballRadius * 0.3,
+                y: ballY + ballRadius * 0.3,
+                width: ballRadius * 0.6,
+                height: ballRadius * 0.2
             )
+            context.fill(Path(ellipseIn: rimRect), with: .color(.white.opacity(0.1)))
         }
 
         // Title
         let title = Text("Newton's Cradle")
             .font(.system(size: 14, weight: .medium))
-            .foregroundColor(.white.opacity(0.5))
-        context.draw(title, at: CGPoint(x: w / 2, y: h - 25))
+            .foregroundColor(.white.opacity(0.4))
+        context.draw(title, at: CGPoint(x: w / 2, y: h - 40))
 
-        let formula = Text("Conservation of Momentum: m\u{2081}v\u{2081} = m\u{2082}v\u{2082}")
+        // Formula
+        let formula = Text("Conservation: m\u{2081}v\u{2081} + m\u{2082}v\u{2082} = m\u{2081}v\u{2081}\u{2032} + m\u{2082}v\u{2082}\u{2032}")
             .font(.system(size: 11))
+            .foregroundColor(.white.opacity(0.25))
+        context.draw(formula, at: CGPoint(x: w / 2, y: h - 22))
+
+        // Energy indicator
+        let totalEnergy = (0..<ballCount).reduce(0.0) { sum, i in
+            let ke = 0.5 * velocities[i] * velocities[i]
+            let pe = gravity * Double(stringLength) * (1 - Foundation.cos(angles[i]))
+            return sum + ke + pe
+        }
+        let energyBar = Text(String(format: "Total Energy: %.1f", totalEnergy))
+            .font(.system(size: 10))
             .foregroundColor(.white.opacity(0.3))
-        context.draw(formula, at: CGPoint(x: w / 2, y: h - 10))
+        context.draw(energyBar, at: CGPoint(x: w / 2, y: h - 6))
     }
 }

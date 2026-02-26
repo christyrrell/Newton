@@ -1,0 +1,82 @@
+{
+  "": {
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/master.swiftdeps"
+  },
+  "/Users/chris/Projects/Newton/Sources/ContentView.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ContentView.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ContentView.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ContentView.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ContentView.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/Helpers/WavelengthColor.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/WavelengthColor.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/WavelengthColor.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/WavelengthColor~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/WavelengthColor.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/WavelengthColor.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/Models/Demo.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/Demo.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/Demo.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/Demo~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/Demo.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/Demo.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/NewtonApp.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/NewtonApp.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/NewtonApp.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/NewtonApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/NewtonApp.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/NewtonApp.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/Views/CalculusView.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CalculusView.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CalculusView.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CalculusView~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CalculusView.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CalculusView.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/Views/CradleView.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CradleView.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CradleView.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CradleView~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CradleView.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/CradleView.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/Views/FallingAppleView.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/FallingAppleView.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/FallingAppleView.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/FallingAppleView~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/FallingAppleView.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/FallingAppleView.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/Views/InverseSquareView.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/InverseSquareView.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/InverseSquareView.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/InverseSquareView~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/InverseSquareView.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/InverseSquareView.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/Views/OrbitsView.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/OrbitsView.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/OrbitsView.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/OrbitsView~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/OrbitsView.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/OrbitsView.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/Views/PrismView.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/PrismView.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/PrismView.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/PrismView~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/PrismView.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/PrismView.dia"
+  },
+  "/Users/chris/Projects/Newton/Sources/Views/ProjectileView.swift": {
+    "dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ProjectileView.d",
+    "object": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ProjectileView.swift.o",
+    "swiftmodule": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ProjectileView~partial.swiftmodule",
+    "swift-dependencies": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ProjectileView.swiftdeps",
+    "diagnostics": "/Users/chris/Projects/Newton/.build/arm64-apple-macosx/debug/Newton.build/ProjectileView.dia"
+  }
+}

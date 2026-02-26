@@ -10,7 +10,7 @@ struct OrbitalBody {
     var radius: Double
     var color: Color
     var name: String
-    var trail: [CGPoint] = []
+    var trail: [(x: Double, y: Double)] = []
 }
 
 struct OrbitsView: View {
@@ -18,19 +18,21 @@ struct OrbitsView: View {
     @State private var timeScale: Double = 1.0
     @State private var showTrails: Bool = true
     @State private var showVectors: Bool = false
-    @State private var trailLength: Double = 300
+    @State private var trailLength: Double = 400
     @State private var isPaused: Bool = false
-    @State private var elapsedTime: Double = 0
+    @State private var lastUpdate: Date = .now
 
-    private let G: Double = 800  // Gravitational constant (scaled for visual effect)
-    private let dt: Double = 0.016
+    private let G: Double = 800
 
     var body: some View {
         VStack(spacing: 0) {
             TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
                 Canvas { context, size in
                     if !isPaused {
-                        updatePhysics(size: size)
+                        let now = timeline.date
+                        let frameDt = min(now.timeIntervalSince(lastUpdate), 1.0 / 30.0)
+                        lastUpdate = now
+                        updatePhysics(dt: frameDt)
                     }
                     drawSystem(context: context, size: size)
                 }
@@ -42,7 +44,6 @@ struct OrbitsView: View {
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal, .top])
 
-            // Controls
             HStack(spacing: 20) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Speed: \(String(format: "%.1f", timeScale))x")
@@ -56,7 +57,7 @@ struct OrbitsView: View {
                     Text("Trail Length")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Slider(value: $trailLength, in: 50...1000)
+                    Slider(value: $trailLength, in: 50...1500)
                         .frame(width: 150)
                 }
 
@@ -70,6 +71,7 @@ struct OrbitsView: View {
 
                 Button(isPaused ? "Resume" : "Pause") {
                     isPaused.toggle()
+                    if !isPaused { lastUpdate = .now }
                 }
                 .buttonStyle(.bordered)
 
@@ -78,7 +80,7 @@ struct OrbitsView: View {
                 Menu("Presets") {
                     Button("Solar System") { setupSolarSystem() }
                     Button("Binary Star") { setupBinaryStars() }
-                    Button("Figure Eight") { setupFigureEight() }
+                    Button("Lagrange Points") { setupLagrange() }
                 }
                 .menuStyle(.borderedButton)
 
@@ -95,16 +97,17 @@ struct OrbitsView: View {
         bodies = [
             OrbitalBody(x: 0, y: 0, vx: 0, vy: 0, mass: 5000, radius: 22,
                         color: .yellow, name: "Sun"),
-            OrbitalBody(x: 100, y: 0, vx: 0, vy: 6.5, mass: 10, radius: 5,
-                        color: Color(red: 0.7, green: 0.7, blue: 0.7), name: "Mercury"),
-            OrbitalBody(x: 160, y: 0, vx: 0, vy: 5.2, mass: 20, radius: 7,
+            OrbitalBody(x: 80, y: 0, vx: 0, vy: 7.2, mass: 8, radius: 4,
+                        color: Color(white: 0.7), name: "Mercury"),
+            OrbitalBody(x: 135, y: 0, vx: 0, vy: 5.6, mass: 18, radius: 6,
                         color: Color(red: 0.9, green: 0.7, blue: 0.4), name: "Venus"),
-            OrbitalBody(x: 220, y: 0, vx: 0, vy: 4.5, mass: 25, radius: 8,
+            OrbitalBody(x: 195, y: 0, vx: 0, vy: 4.7, mass: 22, radius: 7,
                         color: Color(red: 0.3, green: 0.6, blue: 0.9), name: "Earth"),
-            OrbitalBody(x: 300, y: 0, vx: 0, vy: 3.8, mass: 12, radius: 6,
+            OrbitalBody(x: 260, y: 0, vx: 0, vy: 4.0, mass: 10, radius: 5,
                         color: Color(red: 0.9, green: 0.4, blue: 0.3), name: "Mars"),
+            OrbitalBody(x: 370, y: 0, vx: 0, vy: 3.3, mass: 200, radius: 14,
+                        color: Color(red: 0.8, green: 0.7, blue: 0.5), name: "Jupiter"),
         ]
-        elapsedTime = 0
     }
 
     private func setupBinaryStars() {
@@ -116,36 +119,45 @@ struct OrbitsView: View {
             OrbitalBody(x: 250, y: 0, vx: 0, vy: 4.2, mass: 5, radius: 4,
                         color: .green, name: "Planet"),
         ]
-        elapsedTime = 0
     }
 
-    private func setupFigureEight() {
-        // Stable figure-eight three-body solution
-        let v = 3.5
+    private func setupLagrange() {
+        // Sun-Earth-like system with objects at Lagrange-ish points
         bodies = [
-            OrbitalBody(x: -100, y: 0, vx: 0, vy: -v, mass: 1000, radius: 10,
-                        color: .red, name: "A"),
-            OrbitalBody(x: 100, y: 0, vx: 0, vy: v, mass: 1000, radius: 10,
-                        color: .green, name: "B"),
-            OrbitalBody(x: 0, y: 0, vx: v * 0.8, vy: 0, mass: 1000, radius: 10,
-                        color: .cyan, name: "C"),
+            OrbitalBody(x: 0, y: 0, vx: 0, vy: 0, mass: 5000, radius: 20,
+                        color: .yellow, name: "Sun"),
+            OrbitalBody(x: 200, y: 0, vx: 0, vy: 4.6, mass: 25, radius: 7,
+                        color: Color(red: 0.3, green: 0.6, blue: 0.9), name: "Earth"),
+            // Trojan asteroid (leading L4)
+            OrbitalBody(x: 200 * Foundation.cos(.pi / 3),
+                        y: -200 * Foundation.sin(.pi / 3),
+                        vx: 4.6 * Foundation.sin(.pi / 3),
+                        vy: 4.6 * Foundation.cos(.pi / 3),
+                        mass: 1, radius: 3,
+                        color: Color(white: 0.6), name: "L4"),
+            // Trailing L5
+            OrbitalBody(x: 200 * Foundation.cos(.pi / 3),
+                        y: 200 * Foundation.sin(.pi / 3),
+                        vx: -4.6 * Foundation.sin(.pi / 3),
+                        vy: 4.6 * Foundation.cos(.pi / 3),
+                        mass: 1, radius: 3,
+                        color: Color(white: 0.6), name: "L5"),
         ]
-        elapsedTime = 0
     }
 
-    private func updatePhysics(size: CGSize) {
-        let steps = max(1, Int(timeScale * 3))
+    private func updatePhysics(dt: Double) {
+        let steps = max(1, Int(timeScale * 4))
+        let subDt = 0.016 / Double(steps)
 
         for _ in 0..<steps {
-            // Calculate forces
             var forces = Array(repeating: (fx: 0.0, fy: 0.0), count: bodies.count)
 
             for i in 0..<bodies.count {
                 for j in (i + 1)..<bodies.count {
                     let dx = bodies[j].x - bodies[i].x
                     let dy = bodies[j].y - bodies[i].y
-                    let distSq = max(dx * dx + dy * dy, 100)  // Softening
-                    let dist = sqrt(distSq)
+                    let distSq = max(dx * dx + dy * dy, 100)
+                    let dist = Foundation.sqrt(distSq)
                     let force = G * bodies[i].mass * bodies[j].mass / distSq
                     let fx = force * dx / dist
                     let fy = force * dy / dist
@@ -157,116 +169,118 @@ struct OrbitsView: View {
                 }
             }
 
-            // Update velocities and positions (Velocity Verlet)
             for i in 0..<bodies.count {
                 let ax = forces[i].fx / bodies[i].mass
                 let ay = forces[i].fy / bodies[i].mass
+                bodies[i].vx += ax * subDt
+                bodies[i].vy += ay * subDt
+                bodies[i].x += bodies[i].vx * subDt
+                bodies[i].y += bodies[i].vy * subDt
 
-                bodies[i].vx += ax * dt
-                bodies[i].vy += ay * dt
-                bodies[i].x += bodies[i].vx * dt
-                bodies[i].y += bodies[i].vy * dt
-
-                // Record trail
-                let cx = size.width / 2 + bodies[i].x
-                let cy = size.height / 2 + bodies[i].y
-                bodies[i].trail.append(CGPoint(x: cx, y: cy))
-
+                bodies[i].trail.append((x: bodies[i].x, y: bodies[i].y))
                 let maxTrail = Int(trailLength)
                 if bodies[i].trail.count > maxTrail {
                     bodies[i].trail.removeFirst(bodies[i].trail.count - maxTrail)
                 }
             }
-
-            elapsedTime += dt
         }
     }
 
     private func drawSystem(context: GraphicsContext, size: CGSize) {
-        let cx = size.width / 2
-        let cy = size.height / 2
+        let cx = Double(size.width) / 2
+        let cy = Double(size.height) / 2
 
-        // Draw star field background (static dots)
-        let starSeed: UInt64 = 42
-        var rng = SeededRNG(seed: starSeed)
-        for _ in 0..<100 {
-            let sx = Double.random(in: 0...size.width, using: &rng)
-            let sy = Double.random(in: 0...size.height, using: &rng)
-            let brightness = Double.random(in: 0.1...0.4, using: &rng)
+        // Star field
+        var rng = SeededRNG(seed: 42)
+        for _ in 0..<120 {
+            let sx = Double.random(in: 0...Double(size.width), using: &rng)
+            let sy = Double.random(in: 0...Double(size.height), using: &rng)
+            let brightness = Double.random(in: 0.05...0.35, using: &rng)
             let starSize = Double.random(in: 0.5...1.5, using: &rng)
-            let rect = CGRect(x: sx, y: sy, width: starSize, height: starSize)
-            context.fill(Path(ellipseIn: rect), with: .color(.white.opacity(brightness)))
+            context.fill(Path(ellipseIn: CGRect(x: sx, y: sy, width: starSize, height: starSize)),
+                         with: .color(.white.opacity(brightness)))
         }
 
-        // Draw trails
+        // Trails
         if showTrails {
             for body in bodies {
-                guard body.trail.count > 1 else { continue }
-                for i in 1..<body.trail.count {
-                    let opacity = Double(i) / Double(body.trail.count) * 0.6
+                guard body.trail.count > 2 else { continue }
+                let step = max(1, body.trail.count / 500) // Limit number of segments drawn
+                var i = step
+                while i < body.trail.count {
+                    let opacity = Double(i) / Double(body.trail.count) * 0.5
+                    let prev = body.trail[i - step]
+                    let cur = body.trail[i]
                     var segment = Path()
-                    segment.move(to: body.trail[i - 1])
-                    segment.addLine(to: body.trail[i])
-                    context.stroke(segment, with: .color(body.color.opacity(opacity)), lineWidth: 1)
+                    segment.move(to: CGPoint(x: cx + prev.x, y: cy + prev.y))
+                    segment.addLine(to: CGPoint(x: cx + cur.x, y: cy + cur.y))
+                    context.stroke(segment, with: .color(body.color.opacity(opacity)),
+                                   lineWidth: 1)
+                    i += step
                 }
             }
         }
 
-        // Draw bodies
+        // Bodies
         for body in bodies {
             let bx = cx + body.x
             let by = cy + body.y
             let r = body.radius
 
-            // Glow effect for stars (large mass)
+            // Glow for massive bodies (stars)
             if body.mass > 500 {
-                for glowR in stride(from: r * 3, through: r, by: -2) {
-                    let opacity = 0.05 * (1 - (glowR - r) / (r * 2))
-                    let rect = CGRect(x: bx - glowR, y: by - glowR,
-                                      width: glowR * 2, height: glowR * 2)
-                    context.fill(Path(ellipseIn: rect), with: .color(body.color.opacity(opacity)))
+                for glowR in stride(from: r * 4, through: r, by: -3) {
+                    let opacity = 0.04 * (1 - (glowR - r) / (r * 3))
+                    context.fill(Path(ellipseIn: CGRect(x: bx - glowR, y: by - glowR,
+                                                         width: glowR * 2, height: glowR * 2)),
+                                 with: .color(body.color.opacity(opacity)))
                 }
             }
 
             // Body
-            let rect = CGRect(x: bx - r, y: by - r, width: r * 2, height: r * 2)
-            let gradient = Gradient(colors: [body.color, body.color.opacity(0.7)])
+            let gradient = Gradient(colors: [body.color, body.color.opacity(0.6)])
             context.fill(
-                Path(ellipseIn: rect),
-                with: .radialGradient(gradient, center: CGPoint(x: bx - r * 0.2, y: by - r * 0.2),
+                Path(ellipseIn: CGRect(x: bx - r, y: by - r, width: r * 2, height: r * 2)),
+                with: .radialGradient(gradient,
+                                      center: CGPoint(x: bx - r * 0.25, y: by - r * 0.25),
                                       startRadius: 0, endRadius: r)
             )
 
             // Label
             let label = Text(body.name)
                 .font(.system(size: 9))
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(0.6))
             context.draw(label, at: CGPoint(x: bx, y: by - r - 8))
 
-            // Velocity vector
+            // Velocity vectors
             if showVectors {
                 let scale = 5.0
                 var arrow = Path()
                 arrow.move(to: CGPoint(x: bx, y: by))
                 arrow.addLine(to: CGPoint(x: bx + body.vx * scale, y: by + body.vy * scale))
-                context.stroke(arrow, with: .color(.white.opacity(0.5)), lineWidth: 1)
+                context.stroke(arrow, with: .color(.green.opacity(0.5)), lineWidth: 1)
             }
         }
 
         // HUD
         let title = Text("Universal Gravitation")
             .font(.system(size: 14, weight: .medium))
-            .foregroundColor(.white.opacity(0.5))
+            .foregroundColor(.white.opacity(0.4))
         context.draw(title, at: CGPoint(x: cx, y: 20))
 
         let formula = Text("F = G \u{00B7} m\u{2081}m\u{2082} / r\u{00B2}")
             .font(.system(size: 12))
+            .foregroundColor(.white.opacity(0.25))
+        context.draw(formula, at: CGPoint(x: cx, y: Double(size.height) - 12))
+
+        // Body count
+        let count = Text("\(bodies.count) bodies")
+            .font(.system(size: 10))
             .foregroundColor(.white.opacity(0.3))
-        context.draw(formula, at: CGPoint(x: cx, y: size.height - 12))
+        context.draw(count, at: CGPoint(x: 40, y: 15))
     }
 }
 
-/// Deterministic random number generator for consistent star fields
 struct SeededRNG: RandomNumberGenerator {
     var state: UInt64
 
