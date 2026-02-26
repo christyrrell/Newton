@@ -1,6 +1,16 @@
+# Build artifacts
 .build/
-.swiftpm/
-*.xcodeproj
-*.xcworkspace
 DerivedData/
+build/
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+
+# Xcode user-specific data
+*.xcuserdata
+xcuserdata/
+*.xcworkspace
+
+# macOS
 .DS_Store

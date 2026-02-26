@@ -56,19 +56,15 @@ Newton's Law of Cooling: T(t) = T_env + (T_0 - T_env) * e^(-kt). Real-time expon
 - Apple Silicon or Intel Mac
 
 ```bash
-# Clone and build
+# Clone and open in Xcode
 git clone https://github.com/christyrrell/Newton.git
-cd Newton
-swift build
-
-# Run
-swift run
+open Newton/Newton.xcodeproj
 ```
 
-Or build a release for better performance:
+Then press **⌘R** to build and run, or build from the command line:
 ```bash
-swift build -c release
-.build/release/Newton
+cd Newton
+xcodebuild -project Newton.xcodeproj -scheme Newton -configuration Release build
 ```
 
 ## Controls
@@ -81,10 +77,12 @@ swift build -c release
 
 ```
 Newton/
-  Package.swift                # Swift Package Manager manifest
-  Sources/
+  Newton.xcodeproj/            # Xcode project
+  Newton/                      # App source code
     NewtonApp.swift            # @main App entry point
     ContentView.swift          # NavigationSplitView with sidebar
+    Assets.xcassets/           # Asset catalog (icons, colors)
+    Newton.entitlements        # App sandbox entitlements
     Models/
       Demo.swift               # Demo enum with metadata and descriptions
     Views/
