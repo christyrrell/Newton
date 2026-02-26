@@ -58,6 +58,8 @@ struct DemoDetailView: View {
                     CradleView()
                 case .orbits:
                     OrbitsView()
+                case .threeLaws:
+                    ThreeLawsView()
                 case .calculus:
                     CalculusView()
                 case .projectile:

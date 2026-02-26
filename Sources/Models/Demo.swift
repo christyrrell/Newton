@@ -6,6 +6,7 @@ enum Demo: String, CaseIterable, Identifiable {
     case inverseSquare = "Inverse Square Law"
     case cradle = "Newton's Cradle"
     case orbits = "Orbital Mechanics"
+    case threeLaws = "Three Laws"
     case calculus = "Calculus"
     case projectile = "Projectile Motion"
 
@@ -18,6 +19,7 @@ enum Demo: String, CaseIterable, Identifiable {
         case .inverseSquare: return "dot.radiowaves.right"
         case .cradle: return "circle.grid.3x3"
         case .orbits: return "globe.americas"
+        case .threeLaws: return "list.number"
         case .calculus: return "function"
         case .projectile: return "arrow.up.right"
         }
@@ -35,6 +37,8 @@ enum Demo: String, CaseIterable, Identifiable {
             return "Conservation of Momentum"
         case .orbits:
             return "Principia Mathematica (1687)"
+        case .threeLaws:
+            return "Principia (1687)"
         case .calculus:
             return "Method of Fluxions"
         case .projectile:
@@ -54,6 +58,8 @@ enum Demo: String, CaseIterable, Identifiable {
             return "Newton's Cradle demonstrates the conservation of momentum and kinetic energy. When a ball on one end strikes the stationary balls, the force propagates through the line, launching the ball on the opposite end. This elegant device illustrates Newton's Third Law: for every action, there is an equal and opposite reaction."
         case .orbits:
             return "Newton's Law of Universal Gravitation states that every mass attracts every other mass with a force proportional to the product of their masses and inversely proportional to the square of the distance between them: F = G(m\u{2081}m\u{2082})/r\u{00B2}. This law explains planetary orbits, tides, and the motion of celestial bodies."
+        case .threeLaws:
+            return "Newton's Three Laws of Motion form the foundation of classical mechanics. The First Law (Inertia) states an object at rest stays at rest, and an object in motion stays in motion, unless acted upon by a force. The Second Law defines force as mass times acceleration (F = ma). The Third Law states that every action has an equal and opposite reaction."
         case .calculus:
             return "Newton developed the method of fluxions (calculus) to describe rates of change and areas under curves. The derivative gives the instantaneous rate of change of a function, while the integral accumulates area. The Fundamental Theorem of Calculus unifies these two operations as inverses of each other."
         case .projectile:
