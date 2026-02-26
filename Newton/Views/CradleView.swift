@@ -18,13 +18,6 @@ struct CradleView: View {
         VStack(spacing: 0) {
             TimelineView(.animation(minimumInterval: 1.0 / 120.0)) { timeline in
                 Canvas { context, size in
-                    let now = timeline.date
-                    let dt = min(now.timeIntervalSince(lastUpdate), 1.0 / 30.0)
-                    lastUpdate = now
-
-                    if draggingBall == nil {
-                        stepPhysics(dt: dt)
-                    }
                     drawCradle(context: context, size: size)
                 }
                 .background(
@@ -34,6 +27,13 @@ struct CradleView: View {
                     )
                 )
                 .gesture(cradleDragGesture)
+                .onChange(of: timeline.date) { _, newDate in
+                    let dt = min(newDate.timeIntervalSince(lastUpdate), 1.0 / 30.0)
+                    lastUpdate = newDate
+                    if draggingBall == nil {
+                        stepPhysics(dt: dt)
+                    }
+                }
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal, .top])

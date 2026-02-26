@@ -21,24 +21,27 @@ struct FallingAppleView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
-                let _ = timeline.date
-                Canvas { context, size in
-                    if appleDropped && !appleOnGround {
-                        updateApple(size: size)
+            GeometryReader { geo in
+                TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
+                    Canvas { context, size in
+                        drawScene(context: context, size: size)
                     }
-                    time += 1.0 / 60.0
-                    drawScene(context: context, size: size)
-                }
-                .background(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 0.02, green: 0.02, blue: 0.08),
-                            Color(red: 0.05, green: 0.05, blue: 0.12),
-                        ],
-                        startPoint: .top, endPoint: .bottom
+                    .background(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.02, green: 0.02, blue: 0.08),
+                                Color(red: 0.05, green: 0.05, blue: 0.12),
+                            ],
+                            startPoint: .top, endPoint: .bottom
+                        )
                     )
-                )
+                    .onChange(of: timeline.date) { _, _ in
+                        if appleDropped && !appleOnGround {
+                            updateApple(size: geo.size)
+                        }
+                        time += 1.0 / 60.0
+                    }
+                }
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal, .top])

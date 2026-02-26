@@ -5,21 +5,24 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView {
-            List(Demo.allCases, selection: $selectedDemo) { demo in
-                Label {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(demo.rawValue)
-                            .font(.headline)
-                        Text(demo.subtitle)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+            List(selection: $selectedDemo) {
+                ForEach(Demo.allCases) { demo in
+                    Label {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(demo.rawValue)
+                                .font(.headline)
+                            Text(demo.subtitle)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    } icon: {
+                        Image(systemName: demo.icon)
+                            .foregroundStyle(.blue)
+                            .frame(width: 20)
                     }
-                } icon: {
-                    Image(systemName: demo.icon)
-                        .foregroundStyle(.blue)
-                        .frame(width: 20)
+                    .padding(.vertical, 4)
+                    .tag(demo)
                 }
-                .padding(.vertical, 4)
             }
             .navigationTitle("Newton")
             .listStyle(.sidebar)

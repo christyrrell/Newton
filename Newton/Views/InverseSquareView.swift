@@ -13,12 +13,13 @@ struct InverseSquareView: View {
     var body: some View {
         VStack(spacing: 0) {
             TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
-                let _ = timeline.date
                 Canvas { context, size in
-                    animationPhase += 1.0 / 60.0
                     drawScene(context: context, size: size)
                 }
                 .background(Color(white: 0.03))
+                .onChange(of: timeline.date) { _, _ in
+                    animationPhase += 1.0 / 60.0
+                }
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal, .top])

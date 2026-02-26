@@ -28,17 +28,18 @@ struct OrbitsView: View {
         VStack(spacing: 0) {
             TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
                 Canvas { context, size in
-                    if !isPaused {
-                        let now = timeline.date
-                        let frameDt = min(now.timeIntervalSince(lastUpdate), 1.0 / 30.0)
-                        lastUpdate = now
-                        updatePhysics(dt: frameDt)
-                    }
                     drawSystem(context: context, size: size)
                 }
                 .background(Color.black)
                 .onAppear {
                     setupSolarSystem()
+                }
+                .onChange(of: timeline.date) { _, newDate in
+                    if !isPaused {
+                        let frameDt = min(newDate.timeIntervalSince(lastUpdate), 1.0 / 30.0)
+                        lastUpdate = newDate
+                        updatePhysics(dt: frameDt)
+                    }
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))

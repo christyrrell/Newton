@@ -16,12 +16,13 @@ struct ColorWheelView: View {
     var body: some View {
         VStack(spacing: 0) {
             TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
-                let _ = timeline.date
                 Canvas { context, size in
-                    updateSpin()
                     drawColorWheel(context: context, size: size)
                 }
                 .background(Color(white: 0.04))
+                .onChange(of: timeline.date) { _, _ in
+                    updateSpin()
+                }
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal, .top])

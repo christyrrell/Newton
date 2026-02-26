@@ -18,16 +18,17 @@ struct CoolingView: View {
         VStack(spacing: 0) {
             TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
                 Canvas { context, size in
-                    if isRunning {
-                        let now = timeline.date
-                        let dt = min(now.timeIntervalSince(lastUpdate), 1.0 / 30.0)
-                        lastUpdate = now
-                        time += dt * 3 // Speed up time
-                        recordDataPoint()
-                    }
                     drawScene(context: context, size: size)
                 }
                 .background(Color(white: 0.04))
+                .onChange(of: timeline.date) { _, newDate in
+                    if isRunning {
+                        let dt = min(newDate.timeIntervalSince(lastUpdate), 1.0 / 30.0)
+                        lastUpdate = newDate
+                        time += dt * 3
+                        recordDataPoint()
+                    }
+                }
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal, .top])

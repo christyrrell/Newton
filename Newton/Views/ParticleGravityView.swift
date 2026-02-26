@@ -29,13 +29,16 @@ struct ParticleGravityView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
-                let _ = timeline.date
-                Canvas { context, size in
-                    updateParticles(size: size)
-                    drawParticles(context: context, size: size)
+            GeometryReader { geo in
+                TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
+                    Canvas { context, size in
+                        drawParticles(context: context, size: size)
+                    }
+                    .background(Color.black)
+                    .onChange(of: timeline.date) { _, _ in
+                        updateParticles(size: geo.size)
+                    }
                 }
-                .background(Color.black)
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal, .top])

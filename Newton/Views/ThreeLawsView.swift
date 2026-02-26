@@ -48,18 +48,21 @@ struct ThreeLawsView: View {
                 resetCurrentLaw()
             }
 
-            TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
-                let _ = timeline.date
-                Canvas { context, size in
-                    updatePhysics(size: size)
-                    switch selectedLaw {
-                    case 0: drawLaw1(context: context, size: size)
-                    case 1: drawLaw2(context: context, size: size)
-                    case 2: drawLaw3(context: context, size: size)
-                    default: break
+            GeometryReader { geo in
+                TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
+                    Canvas { context, size in
+                        switch selectedLaw {
+                        case 0: drawLaw1(context: context, size: size)
+                        case 1: drawLaw2(context: context, size: size)
+                        case 2: drawLaw3(context: context, size: size)
+                        default: break
+                        }
+                    }
+                    .background(Color(white: 0.04))
+                    .onChange(of: timeline.date) { _, _ in
+                        updatePhysics(size: geo.size)
                     }
                 }
-                .background(Color(white: 0.04))
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal])

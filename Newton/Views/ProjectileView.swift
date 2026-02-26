@@ -26,23 +26,26 @@ struct ProjectileView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
-                let _ = timeline.date
-                Canvas { context, size in
-                    updateProjectiles(size: size)
-                    drawScene(context: context, size: size)
-                }
-                .background(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 0.05, green: 0.05, blue: 0.15),
-                            Color(red: 0.1, green: 0.15, blue: 0.25),
-                            Color(red: 0.15, green: 0.25, blue: 0.15),
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
+            GeometryReader { geo in
+                TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
+                    Canvas { context, size in
+                        drawScene(context: context, size: size)
+                    }
+                    .background(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.05, green: 0.05, blue: 0.15),
+                                Color(red: 0.1, green: 0.15, blue: 0.25),
+                                Color(red: 0.15, green: 0.25, blue: 0.15),
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
                     )
-                )
+                    .onChange(of: timeline.date) { _, _ in
+                        updateProjectiles(size: geo.size)
+                    }
+                }
             }
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .padding([.horizontal, .top])
