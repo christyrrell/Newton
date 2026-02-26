@@ -49,6 +49,7 @@ struct ThreeLawsView: View {
             }
 
             TimelineView(.animation(minimumInterval: 1.0 / 60.0)) { timeline in
+                let _ = timeline.date
                 Canvas { context, size in
                     updatePhysics(size: size)
                     switch selectedLaw {

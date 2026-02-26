@@ -26,6 +26,7 @@ struct ContentView: View {
         } detail: {
             if let demo = selectedDemo {
                 DemoDetailView(demo: demo)
+                    .id(demo)
             } else {
                 WelcomeView()
             }
