@@ -76,10 +76,14 @@ struct DemoDetailView: View {
                     OrbitsView()
                 case .threeLaws:
                     ThreeLawsView()
+                case .colorWheel:
+                    ColorWheelView()
                 case .calculus:
                     CalculusView()
                 case .projectile:
                     ProjectileView()
+                case .cooling:
+                    CoolingView()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

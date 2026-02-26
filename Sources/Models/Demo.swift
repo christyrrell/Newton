@@ -7,8 +7,10 @@ enum Demo: String, CaseIterable, Identifiable {
     case cradle = "Newton's Cradle"
     case orbits = "Orbital Mechanics"
     case threeLaws = "Three Laws"
+    case colorWheel = "Colour Circle"
     case calculus = "Calculus"
     case projectile = "Projectile Motion"
+    case cooling = "Law of Cooling"
 
     var id: String { rawValue }
 
@@ -20,8 +22,10 @@ enum Demo: String, CaseIterable, Identifiable {
         case .cradle: return "circle.grid.3x3"
         case .orbits: return "globe.americas"
         case .threeLaws: return "list.number"
+        case .colorWheel: return "circle.hexagongrid"
         case .calculus: return "function"
         case .projectile: return "arrow.up.right"
+        case .cooling: return "thermometer.medium"
         }
     }
 
@@ -39,10 +43,14 @@ enum Demo: String, CaseIterable, Identifiable {
             return "Principia Mathematica (1687)"
         case .threeLaws:
             return "Principia (1687)"
+        case .colorWheel:
+            return "Opticks (1704)"
         case .calculus:
             return "Method of Fluxions"
         case .projectile:
             return "Laws of Motion"
+        case .cooling:
+            return "Exponential Decay"
         }
     }
 
@@ -60,10 +68,14 @@ enum Demo: String, CaseIterable, Identifiable {
             return "Newton's Law of Universal Gravitation states that every mass attracts every other mass with a force proportional to the product of their masses and inversely proportional to the square of the distance between them: F = G(m\u{2081}m\u{2082})/r\u{00B2}. This law explains planetary orbits, tides, and the motion of celestial bodies."
         case .threeLaws:
             return "Newton's Three Laws of Motion form the foundation of classical mechanics. The First Law (Inertia) states an object at rest stays at rest, and an object in motion stays in motion, unless acted upon by a force. The Second Law defines force as mass times acceleration (F = ma). The Third Law states that every action has an equal and opposite reaction."
+        case .colorWheel:
+            return "In his 1704 work Opticks, Newton arranged the seven spectral colors (red, orange, yellow, green, blue, indigo, violet) in a circle, creating the first color wheel. He predicted that spinning the wheel rapidly would cause the colors to blend into white, demonstrating that white light contains all colors of the spectrum."
         case .calculus:
             return "Newton developed the method of fluxions (calculus) to describe rates of change and areas under curves. The derivative gives the instantaneous rate of change of a function, while the integral accumulates area. The Fundamental Theorem of Calculus unifies these two operations as inverses of each other."
         case .projectile:
             return "Newton's Second Law, F = ma, governs the motion of projectiles under gravity. An object launched at an angle follows a parabolic trajectory determined by its initial velocity and the constant downward pull of gravity. Without air resistance, the horizontal and vertical motions are independent."
+        case .cooling:
+            return "Newton's Law of Cooling states that the rate of heat loss of a body is proportional to the difference between its temperature and its surroundings: dT/dt = -k(T - T_env). This produces exponential decay toward the ambient temperature, with the cooling rate k depending on the object's properties. Newton published this in 1701."
         }
     }
 }
